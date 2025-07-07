@@ -1,16 +1,22 @@
+
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 import os
 from datetime import datetime
 import logging
+# Prometheus metrics
+from prometheus_flask_exporter import PrometheusMetrics
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
+# Initialize Prometheus metrics
+metrics = PrometheusMetrics(app)
 
 # Database configuration
 DATABASE = 'ecommerce.db'
@@ -401,11 +407,6 @@ def api_products():
     conn.close()
     
     return jsonify([dict(product) for product in products])
-
-@app.route('/health')
-def health():
-    """Health check endpoint for load balancer"""
-    return jsonify({'status': 'healthy', 'timestamp': datetime.now().isoformat()}), 200
 
 @app.errorhandler(404)
 def not_found(error):
