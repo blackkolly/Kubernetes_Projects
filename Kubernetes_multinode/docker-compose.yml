@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:6
+    container_name: mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: yourdbname
+
+  backend:
+    image: blackkolly/my-flask-app-backend:latest
+    container_name: netflix-backend
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/yourdbname
+      JWT_SECRET: your_jwt_secret_here
+    depends_on:
+      - mongodb
+
+  frontend:
+    image: blackkolly/my-flask-app-frontend:latest
+    container_name: netflix-frontend
+    restart: always
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    environment:
+      REACT_APP_API_URL: http://localhost:8080/api
+    depends_on:
+      - backend
+volumes:
+  mongo-data:

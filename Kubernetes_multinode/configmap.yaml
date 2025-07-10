@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  labels:
+    app: netflix-frontend
+    tier: config
+    managed-by: kubectl
+    environment: production
+data:
+  REACT_APP_API_URL: "https://yourdomain.com/api"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  labels:
+    app: netflix-backend
+    tier: config
+    managed-by: kubectl
+    environment: production
+data:
+  SPRING_PROFILES_ACTIVE: "prod"
+  LOG_LEVEL: "INFO"
+  FEATURE_X_ENABLED: "true"

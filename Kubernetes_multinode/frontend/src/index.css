@@ -1,0 +1,36 @@
+/* Netflix style global overrides */
+body {
+  background: #141414 !important;
+  color: #fff !important;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+::-webkit-scrollbar {
+  height: 8px;
+  background: #181818;
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+.MuiCard-root {
+  background: #222 !important;
+  color: #fff !important;
+  border-radius: 0 !important;
+}
+
+.MuiButton-containedPrimary {
+  background: #e50914 !important;
+  color: #fff !important;
+  font-weight: bold;
+}
+
+.MuiAppBar-root {
+  background: #141414 !important;
+  box-shadow: none !important;
+}
+
+.MuiTypography-h4, .MuiTypography-h5, .MuiTypography-h6 {
+  font-weight: 900 !important;
+}
