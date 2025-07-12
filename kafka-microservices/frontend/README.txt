@@ -1,0 +1,1 @@
+Place only your static frontend files (index.html, app-controller.js, CSS, images, etc.) in this directory. Do not include backend or sensitive files. This directory is now used for the frontend Docker build.

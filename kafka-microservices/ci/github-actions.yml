@@ -1,0 +1,29 @@
+name: CI/CD Pipeline
+on:
+  push:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: |
+          cd Nodejs_App/producer-service && npm install
+          cd ../consumer-service && npm install
+          cd ../alert-service && npm install
+      - name: Run tests
+        run: echo "Add your test commands here"
+      - name: Build Docker images
+        run: |
+          docker build -t producer-service ./Nodejs_App/producer-service
+          docker build -t consumer-service ./Nodejs_App/consumer-service
+          docker build -t alert-service ./Nodejs_App/alert-service
+      - name: Push Docker images
+        run: echo "Push to your Docker registry here"
+      - name: Deploy to Kubernetes
+        run: echo "Helm/Kubectl deploy commands here"

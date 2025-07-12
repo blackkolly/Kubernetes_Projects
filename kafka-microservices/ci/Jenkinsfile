@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Install') {
+            steps {
+                dir('Nodejs_App/producer-service') { sh 'npm install' }
+                dir('Nodejs_App/consumer-service') { sh 'npm install' }
+                dir('Nodejs_App/alert-service') { sh 'npm install' }
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Add your test commands here'
+            }
+        }
+        stage('Build Docker Images') {
+            steps {
+                sh 'docker build -t producer-service ./Nodejs_App/producer-service'
+                sh 'docker build -t consumer-service ./Nodejs_App/consumer-service'
+                sh 'docker build -t alert-service ./Nodejs_App/alert-service'
+            }
+        }
+        stage('Push Images') {
+            steps {
+                echo 'Push to your Docker registry here'
+            }
+        }
+        stage('Deploy to Kubernetes') {
+            steps {
+                echo 'Helm/Kubectl deploy commands here'
+            }
+        }
+    }
+}
