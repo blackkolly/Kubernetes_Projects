@@ -1,0 +1,203 @@
+  zookeeper:
+    enabled: true
+    image: "bitnami/zookeeper:latest"
+    port: 2181
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 200m
+        memory: 256Mi
+    livenessProbe:
+      tcpSocket:
+        port: 2181
+      initialDelaySeconds: 10
+      periodSeconds: 10
+    readinessProbe:
+      tcpSocket:
+        port: 2181
+      initialDelaySeconds: 5
+      periodSeconds: 5
+
+services:
+  producer:
+    enabled: true
+    image: "blackkolly/producer-service:1.0.0"
+    port: 3001
+    env:
+      KAFKA_BROKER: kafka:9092
+      TOPIC: crypto-stream
+    resources:
+      requests:
+        cpu: 200m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+    livenessProbe:
+      httpGet:
+        path: /health
+        port: 3001
+      initialDelaySeconds: 10
+      periodSeconds: 10
+    readinessProbe:
+      httpGet:
+        path: /health
+        port: 3001
+      initialDelaySeconds: 5
+      periodSeconds: 5
+
+  consumer:
+    enabled: true
+    image: "blackkolly/consumer-service:1.0.0"
+    port: 3002
+    env:
+      KAFKA_BROKER: kafka:9092
+      TOPIC: crypto-stream
+    resources:
+      requests:
+        cpu: 200m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+    livenessProbe:
+      httpGet:
+        path: /health
+        port: 3002
+      initialDelaySeconds: 10
+      periodSeconds: 10
+    readinessProbe:
+      httpGet:
+        path: /health
+        port: 3002
+      initialDelaySeconds: 5
+      periodSeconds: 5
+
+  alert:
+    enabled: true
+    image: "blackkolly/alert-service:1.0.0"
+    port: 3003
+    env:
+      ALERT_EMAIL: alerts@example.com
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 300m
+        memory: 256Mi
+    livenessProbe:
+      httpGet:
+        path: /health
+        port: 3003
+      initialDelaySeconds: 10
+      periodSeconds: 10
+    readinessProbe:
+      httpGet:
+        path: /health
+        port: 3003
+      initialDelaySeconds: 5
+      periodSeconds: 5
+
+  backend:
+    enabled: true
+    image: "blackkolly/data-stream-backend:1.0.0"
+    port: 4000
+    env:
+      MONGODB_URI: mongodb://mongodb:27017/streamdb
+    resources:
+      requests:
+        cpu: 200m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+    livenessProbe:
+      httpGet:
+        path: /health
+        port: 4000
+      initialDelaySeconds: 10
+      periodSeconds: 10
+    readinessProbe:
+      httpGet:
+        path: /health
+        port: 4000
+      initialDelaySeconds: 5
+      periodSeconds: 5
+
+  frontend:
+    enabled: true
+    image: "blackkolly/frontend:1.0.0"
+    port: 80
+    env: {}
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 300m
+        memory: 256Mi
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 10
+      periodSeconds: 10
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 5
+      periodSeconds: 5
+
+  kafka:
+    enabled: true
+    image: "bitnami/kafka:latest"
+    port: 9092
+    env:
+      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 300m
+        memory: 512Mi
+    livenessProbe:
+      tcpSocket:
+        port: 9092
+      initialDelaySeconds: 10
+      periodSeconds: 10
+    readinessProbe:
+      tcpSocket:
+        port: 9092
+      initialDelaySeconds: 5
+      periodSeconds: 5
+
+  mongodb:
+    enabled: true
+    image: "bitnami/mongodb:latest"
+    port: 27017
+    env:
+      MONGODB_ROOT_PASSWORD: strongpassword
+      MONGODB_DATABASE: streamdb
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 300m
+        memory: 512Mi
+    livenessProbe:
+      tcpSocket:
+        port: 27017
+      initialDelaySeconds: 10
+      periodSeconds: 10
+    readinessProbe:
+      tcpSocket:
+        port: 27017
+      initialDelaySeconds: 5
+      periodSeconds: 5

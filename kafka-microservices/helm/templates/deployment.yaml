@@ -1,0 +1,49 @@
+---
+{{- /*
+  Loop over all enabled services and create a Deployment for each
+  Only render if required fields are present
+*/ -}}
+{{- range $name, $svc := .Values.services }}
+---
+{{- if and $svc.enabled $svc.image $svc.port }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "microservice.fullname" (dict "Release" $.Release "service" (dict "name" $name)) }}
+  labels:
+    {{ include "microservice.labels" (dict "Release" $.Release "Chart" $.Chart "service" (dict "name" $name)) | nindent 4 }}
+spec:
+  replicas: {{ $svc.replicaCount | default 1 }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ $name }}
+      app.kubernetes.io/instance: {{ $.Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ $name }}
+        app.kubernetes.io/instance: {{ $.Release.Name }}
+      annotations:
+        {{ include "microservice.prometheus.annotations" (dict "service" (dict "name" $name "port" $svc.port)) | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ $name }}
+          image: {{ $svc.image }}
+          imagePullPolicy: {{ $svc.imagePullPolicy | default "IfNotPresent" }}
+          ports:
+            - containerPort: {{ $svc.port }}
+          {{- if $svc.env }}
+          env:
+            {{- range $key, $value := $svc.env }}
+            - name: {{ $key }}
+              value: "{{ $value }}"
+            {{- end }}
+          {{- end }}
+          resources:
+            {{- toYaml $svc.resources | nindent 12 }}
+          livenessProbe:
+            {{- toYaml $svc.livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml $svc.readinessProbe | nindent 12 }}
+{{- end }}
+{{- end }}

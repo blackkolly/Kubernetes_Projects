@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: kafka-microservices-alerts
+spec:
+  groups:
+    - name: microservices.rules
+      rules:
+        - alert: MicroserviceDown
+          expr: kube_deployment_status_replicas_available{job="kube-state-metrics"} < 1
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Microservice {{`{{ $labels.deployment }}`}} is down"
+            description: "No available replicas for deployment {{`{{ $labels.deployment }}`}} in namespace {{`{{ $labels.namespace }}`}}."
