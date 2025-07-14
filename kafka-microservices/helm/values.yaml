@@ -1,26 +1,28 @@
+services:
   zookeeper:
     enabled: true
     image: "bitnami/zookeeper:latest"
     port: 2181
+    env:
+      ALLOW_ANONYMOUS_LOGIN: "yes"
     resources:
       requests:
-        cpu: 100m
-        memory: 128Mi
-      limits:
-        cpu: 200m
+        cpu: 250m
         memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
     livenessProbe:
       tcpSocket:
         port: 2181
-      initialDelaySeconds: 10
+      initialDelaySeconds: 30
       periodSeconds: 10
     readinessProbe:
       tcpSocket:
         port: 2181
-      initialDelaySeconds: 5
+      initialDelaySeconds: 20
       periodSeconds: 5
 
-services:
   producer:
     enabled: true
     image: "blackkolly/producer-service:1.0.0"
@@ -55,6 +57,7 @@ services:
     env:
       KAFKA_BROKER: kafka:9092
       TOPIC: crypto-stream
+      MONGODB_URI: mongodb://mongodb:27017/streamdb
     resources:
       requests:
         cpu: 200m
@@ -159,22 +162,26 @@ services:
     env:
       KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CFG_BROKER_ID: "1"
+      KAFKA_CFG_LISTENERS: PLAINTEXT://:9092
+      KAFKA_CFG_KRAFT_MODE: "false"
+      ALLOW_PLAINTEXT_LISTENER: "yes"
     resources:
       requests:
-        cpu: 100m
-        memory: 256Mi
-      limits:
-        cpu: 300m
+        cpu: 500m
         memory: 512Mi
+      limits:
+        cpu: 1
+        memory: 1Gi
     livenessProbe:
       tcpSocket:
         port: 9092
-      initialDelaySeconds: 10
+      initialDelaySeconds: 30
       periodSeconds: 10
     readinessProbe:
       tcpSocket:
         port: 9092
-      initialDelaySeconds: 5
+      initialDelaySeconds: 20
       periodSeconds: 5
 
   mongodb:
@@ -186,18 +193,18 @@ services:
       MONGODB_DATABASE: streamdb
     resources:
       requests:
-        cpu: 100m
-        memory: 256Mi
-      limits:
-        cpu: 300m
+        cpu: 500m
         memory: 512Mi
+      limits:
+        cpu: 1
+        memory: 1Gi
     livenessProbe:
       tcpSocket:
         port: 27017
-      initialDelaySeconds: 10
+      initialDelaySeconds: 30
       periodSeconds: 10
     readinessProbe:
       tcpSocket:
         port: 27017
-      initialDelaySeconds: 5
+      initialDelaySeconds: 20
       periodSeconds: 5
