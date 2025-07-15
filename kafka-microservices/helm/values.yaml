@@ -52,7 +52,7 @@ services:
 
   consumer:
     enabled: true
-    image: "blackkolly/consumer-service:1.0.0"
+    image: "blackkolly/consumer-service:1.0.1"
     port: 3002
     env:
       KAFKA_BROKER: kafka:9092
@@ -110,6 +110,7 @@ services:
     port: 4000
     env:
       MONGODB_URI: mongodb://mongodb:27017/streamdb
+      PRODUCER_URL: http://producer:3001/produce
     resources:
       requests:
         cpu: 200m
@@ -119,13 +120,13 @@ services:
         memory: 512Mi
     livenessProbe:
       httpGet:
-        path: /health
+        path: /
         port: 4000
       initialDelaySeconds: 10
       periodSeconds: 10
     readinessProbe:
       httpGet:
-        path: /health
+        path: /
         port: 4000
       initialDelaySeconds: 5
       periodSeconds: 5
@@ -155,16 +156,16 @@ services:
       initialDelaySeconds: 5
       periodSeconds: 5
 
+
   kafka:
     enabled: true
-    image: "bitnami/kafka:latest"
+    image: "bitnami/kafka:3.3.2"
     port: 9092
     env:
       KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_CFG_BROKER_ID: "1"
       KAFKA_CFG_LISTENERS: PLAINTEXT://:9092
-      KAFKA_CFG_KRAFT_MODE: "false"
       ALLOW_PLAINTEXT_LISTENER: "yes"
     resources:
       requests:

@@ -7,7 +7,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "microservice.fullname" (dict "Release" $.Release "service" (dict "name" $name)) }}
+  name: {{ if or (eq $name "kafka") (eq $name "zookeeper") (eq $name "mongodb") }}{{ $name }}{{ else }}{{ include "microservice.fullname" (dict "Release" $.Release "service" (dict "name" $name)) }}{{ end }}
   labels:
     {{ include "microservice.labels" (dict "Release" $.Release "Chart" $.Chart "service" (dict "name" $name)) | nindent 4 }}
 spec:
