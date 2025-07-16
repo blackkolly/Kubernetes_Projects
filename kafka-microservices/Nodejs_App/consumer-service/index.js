@@ -5,8 +5,8 @@ const app = express();
 
 const kafka = new Kafka({ brokers: [process.env.KAFKA_BROKER || 'kafka:9092'] });
 const consumer = kafka.consumer({ groupId: 'consumer-group' });
-// Use 'localhost' for local dev, 'mongo' for Docker/K8s
-const mongoUrl = process.env.MONGODB_URI || process.env.MONGO_URL || (process.env.NODE_ENV === 'production' ? 'mongodb://mongodb:27017/streamdb' : 'mongodb://localhost:27017/streamdb');
+// Use environment variable for MongoDB connection, fallback to Kubernetes DNS name
+const mongoUrl = process.env.MONGODB_URI || 'mongodb://mongodb:27017/streamdb';
 const dbName = process.env.DB_NAME || 'events';
 
 let db;

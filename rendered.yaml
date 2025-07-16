@@ -1,0 +1,1146 @@
+---
+# Source: kafka-microservices/charts/alert-service/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kafka-microservices-alert-service-config
+  labels:
+    app: alert-service
+data:
+  # Add environment variables or config here
+---
+# Source: kafka-microservices/charts/backend/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kafka-microservices-backend-config
+  labels:
+    app: backend
+data:
+  # Add environment variables or config here
+---
+# Source: kafka-microservices/charts/consumer-service/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kafka-microservices-consumer-service-config
+  labels:
+    app: consumer-service
+data:
+  # Add environment variables or config here
+---
+# Source: kafka-microservices/charts/frontend/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kafka-microservices-frontend-config
+  labels:
+    app: frontend
+data:
+  # Add environment variables or config here
+---
+# Source: kafka-microservices/charts/kafka/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kafka-microservices-kafka-config
+  labels:
+    app: kafka
+data:
+  # Add environment variables or config here
+---
+# Source: kafka-microservices/charts/mongodb/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kafka-microservices-mongodb-config
+  labels:
+    app: mongodb
+data:
+  # Add environment variables or config here
+---
+# Source: kafka-microservices/charts/producer-service/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kafka-microservices-producer-service-config
+  labels:
+    app: producer-service
+data:
+  # Add environment variables or config here
+---
+# Source: kafka-microservices/charts/alert-service/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-microservices-alert-service
+  labels:
+    app: alert-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3003
+      targetPort: 3003
+  selector:
+    app: alert-service
+    release: kafka-microservices
+---
+# Source: kafka-microservices/charts/backend/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-microservices-backend
+  labels:
+    app: backend
+spec:
+  type: ClusterIP
+  ports:
+    - port: 4000
+      targetPort: 4000
+  selector:
+    app: backend
+    release: kafka-microservices
+---
+# Source: kafka-microservices/charts/consumer-service/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-microservices-consumer-service
+  labels:
+    app: consumer-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3002
+      targetPort: 3002
+  selector:
+    app: consumer-service
+    release: kafka-microservices
+---
+# Source: kafka-microservices/charts/frontend/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-microservices-frontend
+  labels:
+    app.kubernetes.io/name: frontend
+    app.kubernetes.io/instance: kafka-microservices
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app.kubernetes.io/name: frontend
+    app.kubernetes.io/instance: kafka-microservices
+---
+# Source: kafka-microservices/charts/kafka/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-microservices-kafka
+  labels:
+    app: kafka
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9092
+      targetPort: 9092
+  selector:
+    app: kafka
+    release: kafka-microservices
+---
+# Source: kafka-microservices/charts/mongodb/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-microservices-mongodb
+  labels:
+    app: mongodb
+spec:
+  type: ClusterIP
+  ports:
+    - port: 27017
+      targetPort: 27017
+  selector:
+    app: mongodb
+    release: kafka-microservices
+---
+# Source: kafka-microservices/charts/producer-service/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-microservices-producer-service
+  labels:
+    app: producer-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3001
+      targetPort: 3001
+  selector:
+    app: producer-service
+    release: kafka-microservices
+---
+# Source: kafka-microservices/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-microservices-alert
+  labels:
+    
+    app.kubernetes.io/name: alert
+    app.kubernetes.io/instance: kafka-microservices
+    app.kubernetes.io/component: alert
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.1.0
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3003
+      targetPort: 3003
+  selector:
+    app.kubernetes.io/name: alert
+    app.kubernetes.io/instance: kafka-microservices
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-microservices-backend
+  labels:
+    
+    app.kubernetes.io/name: backend
+    app.kubernetes.io/instance: kafka-microservices
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.1.0
+spec:
+  type: ClusterIP
+  ports:
+    - port: 4000
+      targetPort: 4000
+  selector:
+    app.kubernetes.io/name: backend
+    app.kubernetes.io/instance: kafka-microservices
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-microservices-consumer
+  labels:
+    
+    app.kubernetes.io/name: consumer
+    app.kubernetes.io/instance: kafka-microservices
+    app.kubernetes.io/component: consumer
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.1.0
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3002
+      targetPort: 3002
+  selector:
+    app.kubernetes.io/name: consumer
+    app.kubernetes.io/instance: kafka-microservices
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-microservices-frontend
+  labels:
+    
+    app.kubernetes.io/name: frontend
+    app.kubernetes.io/instance: kafka-microservices
+    app.kubernetes.io/component: frontend
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.1.0
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app.kubernetes.io/name: frontend
+    app.kubernetes.io/instance: kafka-microservices
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka
+  labels:
+    
+    app.kubernetes.io/name: kafka
+    app.kubernetes.io/instance: kafka-microservices
+    app.kubernetes.io/component: kafka
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.1.0
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9092
+      targetPort: 9092
+  selector:
+    app.kubernetes.io/name: kafka
+    app.kubernetes.io/instance: kafka-microservices
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb
+  labels:
+    
+    app.kubernetes.io/name: mongodb
+    app.kubernetes.io/instance: kafka-microservices
+    app.kubernetes.io/component: mongodb
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.1.0
+spec:
+  type: ClusterIP
+  ports:
+    - port: 27017
+      targetPort: 27017
+  selector:
+    app.kubernetes.io/name: mongodb
+    app.kubernetes.io/instance: kafka-microservices
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-microservices-producer
+  labels:
+    
+    app.kubernetes.io/name: producer
+    app.kubernetes.io/instance: kafka-microservices
+    app.kubernetes.io/component: producer
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.1.0
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3001
+      targetPort: 3001
+  selector:
+    app.kubernetes.io/name: producer
+    app.kubernetes.io/instance: kafka-microservices
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper
+  labels:
+    
+    app.kubernetes.io/name: zookeeper
+    app.kubernetes.io/instance: kafka-microservices
+    app.kubernetes.io/component: zookeeper
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.1.0
+spec:
+  type: ClusterIP
+  ports:
+    - port: 2181
+      targetPort: 2181
+  selector:
+    app.kubernetes.io/name: zookeeper
+    app.kubernetes.io/instance: kafka-microservices
+---
+# Source: kafka-microservices/charts/alert-service/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-microservices-alert-service
+  labels:
+    app: alert-service
+    chart: alert-service-0.1.0
+    release: kafka-microservices
+    heritage: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alert-service
+      release: kafka-microservices
+  template:
+    metadata:
+      labels:
+        app: alert-service
+        release: kafka-microservices
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3003"
+    spec:
+      containers:
+        - name: alert-service
+          image: "alert-service:latest"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3003
+          env:
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3003
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3003
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            {}
+---
+# Source: kafka-microservices/charts/backend/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-microservices-backend
+  labels:
+    app: backend
+    chart: backend-0.1.0
+    release: kafka-microservices
+    heritage: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+      release: kafka-microservices
+  template:
+    metadata:
+      labels:
+        app: backend
+        release: kafka-microservices
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "4000"
+    spec:
+      containers:
+        - name: backend
+          image: "data-stream-backend:latest"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 4000
+          env:
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 4000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 4000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            {}
+---
+# Source: kafka-microservices/charts/consumer-service/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-microservices-consumer-service
+  labels:
+    app: consumer-service
+    chart: consumer-service-0.1.0
+    release: kafka-microservices
+    heritage: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consumer-service
+      release: kafka-microservices
+  template:
+    metadata:
+      labels:
+        app: consumer-service
+        release: kafka-microservices
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3002"
+    spec:
+      containers:
+        - name: consumer-service
+          image: "consumer-service:latest"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3002
+          env:
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3002
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3002
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            {}
+---
+# Source: kafka-microservices/charts/frontend/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-microservices-frontend
+  labels:
+    app: frontend
+    chart: frontend-0.1.0
+    release: kafka-microservices
+    heritage: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+      release: kafka-microservices
+  template:
+    metadata:
+      labels:
+        app: frontend
+        release: kafka-microservices
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "80"
+    spec:
+      containers:
+        - name: frontend
+          image: "frontend:latest"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          env:
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            {}
+---
+# Source: kafka-microservices/charts/kafka/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-microservices-kafka
+  labels:
+    app: kafka
+    chart: kafka-0.1.0
+    release: kafka-microservices
+    heritage: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka
+      release: kafka-microservices
+  template:
+    metadata:
+      labels:
+        app: kafka
+        release: kafka-microservices
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9092"
+    spec:
+      containers:
+        - name: kafka
+          image: "bitnami/kafka:latest"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9092
+          env:
+          livenessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            tcpSocket:
+              port: 9092
+          readinessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            tcpSocket:
+              port: 9092
+          resources:
+            {}
+---
+# Source: kafka-microservices/charts/mongodb/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-microservices-mongodb
+  labels:
+    app: mongodb
+    chart: mongodb-0.1.0
+    release: kafka-microservices
+    heritage: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+      release: kafka-microservices
+  template:
+    metadata:
+      labels:
+        app: mongodb
+        release: kafka-microservices
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "27017"
+    spec:
+      containers:
+        - name: mongodb
+          image: "bitnami/mongodb:latest"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 27017
+          env:
+          livenessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            tcpSocket:
+              port: 27017
+          readinessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            tcpSocket:
+              port: 27017
+          resources:
+            {}
+---
+# Source: kafka-microservices/charts/producer-service/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-microservices-producer-service
+  labels:
+    app: producer-service
+    chart: producer-service-0.1.0
+    release: kafka-microservices
+    heritage: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: producer-service
+      release: kafka-microservices
+  template:
+    metadata:
+      labels:
+        app: producer-service
+        release: kafka-microservices
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3001"
+    spec:
+      containers:
+        - name: producer-service
+          image: "producer-service:latest"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3001
+          env:
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3001
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3001
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            {}
+---
+# Source: kafka-microservices/templates/deployment.yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-microservices-alert
+  labels:
+    
+    app.kubernetes.io/name: alert
+    app.kubernetes.io/instance: kafka-microservices
+    app.kubernetes.io/component: alert
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.1.0
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: alert
+      app.kubernetes.io/instance: kafka-microservices
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: alert
+        app.kubernetes.io/instance: kafka-microservices
+      annotations:
+        
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3003"
+    spec:
+      containers:
+        - name: alert
+          image: blackkolly/alert-service:1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3003
+          env:
+            - name: ALERT_EMAIL
+              value: "alerts@example.com"
+          resources:
+            limits:
+              cpu: 300m
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3003
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3003
+            initialDelaySeconds: 5
+            periodSeconds: 5
+---
+# Source: kafka-microservices/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-microservices-backend
+  labels:
+    
+    app.kubernetes.io/name: backend
+    app.kubernetes.io/instance: kafka-microservices
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.1.0
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: backend
+      app.kubernetes.io/instance: kafka-microservices
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: backend
+        app.kubernetes.io/instance: kafka-microservices
+      annotations:
+        
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "4000"
+    spec:
+      containers:
+        - name: backend
+          image: blackkolly/data-stream-backend:1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 4000
+          env:
+            - name: MONGODB_URI
+              value: "mongodb://mongodb:27017/streamdb"
+            - name: PRODUCER_URL
+              value: "http://producer:3001/produce"
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 200m
+              memory: 256Mi
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 4000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 4000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+---
+# Source: kafka-microservices/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-microservices-consumer
+  labels:
+    
+    app.kubernetes.io/name: consumer
+    app.kubernetes.io/instance: kafka-microservices
+    app.kubernetes.io/component: consumer
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.1.0
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: consumer
+      app.kubernetes.io/instance: kafka-microservices
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: consumer
+        app.kubernetes.io/instance: kafka-microservices
+      annotations:
+        
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3002"
+    spec:
+      containers:
+        - name: consumer
+          image: blackkolly/consumer-service:1.0.2
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3002
+          env:
+            - name: KAFKA_BROKER
+              value: "kafka:9092"
+            - name: MONGODB_URI
+              value: "mongodb://mongodb:27017/streamdb"
+            - name: TOPIC
+              value: "crypto-stream"
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 200m
+              memory: 256Mi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3002
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3002
+            initialDelaySeconds: 5
+            periodSeconds: 5
+---
+# Source: kafka-microservices/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-microservices-frontend
+  labels:
+    
+    app.kubernetes.io/name: frontend
+    app.kubernetes.io/instance: kafka-microservices
+    app.kubernetes.io/component: frontend
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.1.0
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: frontend
+      app.kubernetes.io/instance: kafka-microservices
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: frontend
+        app.kubernetes.io/instance: kafka-microservices
+      annotations:
+        
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "80"
+    spec:
+      containers:
+        - name: frontend
+          image: blackkolly/frontend:1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              cpu: 300m
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
+---
+# Source: kafka-microservices/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-microservices-kafka
+  labels:
+    
+    app.kubernetes.io/name: kafka
+    app.kubernetes.io/instance: kafka-microservices
+    app.kubernetes.io/component: kafka
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.1.0
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: kafka
+      app.kubernetes.io/instance: kafka-microservices
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: kafka
+        app.kubernetes.io/instance: kafka-microservices
+      annotations:
+        
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9092"
+    spec:
+      containers:
+        - name: kafka
+          image: bitnami/kafka:3.3.2
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9092
+          env:
+            - name: ALLOW_PLAINTEXT_LISTENER
+              value: "yes"
+            - name: KAFKA_CFG_ADVERTISED_LISTENERS
+              value: "PLAINTEXT://kafka:9092"
+            - name: KAFKA_CFG_BROKER_ID
+              value: "1"
+            - name: KAFKA_CFG_LISTENERS
+              value: "PLAINTEXT://:9092"
+            - name: KAFKA_CFG_ZOOKEEPER_CONNECT
+              value: "zookeeper:2181"
+          resources:
+            limits:
+              cpu: 1
+              memory: 1Gi
+            requests:
+              cpu: 500m
+              memory: 512Mi
+          livenessProbe:
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            tcpSocket:
+              port: 9092
+          readinessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            tcpSocket:
+              port: 9092
+---
+# Source: kafka-microservices/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-microservices-mongodb
+  labels:
+    
+    app.kubernetes.io/name: mongodb
+    app.kubernetes.io/instance: kafka-microservices
+    app.kubernetes.io/component: mongodb
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.1.0
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mongodb
+      app.kubernetes.io/instance: kafka-microservices
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: mongodb
+        app.kubernetes.io/instance: kafka-microservices
+      annotations:
+        
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "27017"
+    spec:
+      containers:
+        - name: mongodb
+          image: bitnami/mongodb:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 27017
+          env:
+            - name: MONGODB_DATABASE
+              value: "streamdb"
+            - name: MONGODB_ROOT_PASSWORD
+              value: "strongpassword"
+          resources:
+            limits:
+              cpu: 1
+              memory: 1Gi
+            requests:
+              cpu: 500m
+              memory: 512Mi
+          livenessProbe:
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            tcpSocket:
+              port: 27017
+          readinessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            tcpSocket:
+              port: 27017
+---
+# Source: kafka-microservices/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-microservices-producer
+  labels:
+    
+    app.kubernetes.io/name: producer
+    app.kubernetes.io/instance: kafka-microservices
+    app.kubernetes.io/component: producer
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.1.0
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: producer
+      app.kubernetes.io/instance: kafka-microservices
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: producer
+        app.kubernetes.io/instance: kafka-microservices
+      annotations:
+        
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3001"
+    spec:
+      containers:
+        - name: producer
+          image: blackkolly/producer-service:1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3001
+          env:
+            - name: KAFKA_BROKER
+              value: "kafka:9092"
+            - name: TOPIC
+              value: "crypto-stream"
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 200m
+              memory: 256Mi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3001
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3001
+            initialDelaySeconds: 5
+            periodSeconds: 5
+---
+# Source: kafka-microservices/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-microservices-zookeeper
+  labels:
+    
+    app.kubernetes.io/name: zookeeper
+    app.kubernetes.io/instance: kafka-microservices
+    app.kubernetes.io/component: zookeeper
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.1.0
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: zookeeper
+      app.kubernetes.io/instance: kafka-microservices
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: zookeeper
+        app.kubernetes.io/instance: kafka-microservices
+      annotations:
+        
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "2181"
+    spec:
+      containers:
+        - name: zookeeper
+          image: bitnami/zookeeper:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 2181
+          env:
+            - name: ALLOW_ANONYMOUS_LOGIN
+              value: "yes"
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          livenessProbe:
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            tcpSocket:
+              port: 2181
+          readinessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            tcpSocket:
+              port: 2181
+---
+# Source: kafka-microservices/templates/prometheus-alerts.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: kafka-microservices-alerts
+spec:
+  groups:
+    - name: microservices.rules
+      rules:
+        - alert: MicroserviceDown
+          expr: kube_deployment_status_replicas_available{job="kube-state-metrics"} < 1
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Microservice {{ $labels.deployment }} is down"
+            description: "No available replicas for deployment {{ $labels.deployment }} in namespace {{ $labels.namespace }}."

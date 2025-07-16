@@ -15,7 +15,7 @@ app.use(cors({
 app.get('/api/consumed', async (req, res) => {
   try {
     // Use service name for Docker/K8s, localhost for local dev
-    const consumerUrl = process.env.CONSUMER_SERVICE_URL || 'http://localhost:3002/api/consumed';
+    const consumerUrl = process.env.CONSUMER_SERVICE_URL || 'http://consumer:3002/api/consumed';
     const response = await axios.get(consumerUrl);
     res.json(response.data);
   } catch (err) {
@@ -46,7 +46,7 @@ function stopStreaming(key) {
 }
 
 // Producer URL: use env or default to localhost for local dev
-const PRODUCER_URL = process.env.PRODUCER_URL || 'http://localhost:3001/produce';
+const PRODUCER_URL = process.env.PRODUCER_URL || 'http://producer:3001/produce';
 
 // Stream crypto price (with symbol param)
 app.post('/api/stream/crypto', async (req, res) => {

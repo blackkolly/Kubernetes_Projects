@@ -1,0 +1,4 @@
+apiVersion: v2
+name: alert-service
+description: Alert microservice
+version: 0.1.0

@@ -1,0 +1,24 @@
+replicaCount: 1
+image:
+  repository: docker.io/blackkolly/alert-service
+  tag: 1.0.0
+  pullPolicy: IfNotPresent
+service:
+  type: ClusterIP
+  port: 3003
+env: {}
+resources: {}
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 3003
+  initialDelaySeconds: 10
+  periodSeconds: 10
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 3003
+  initialDelaySeconds: 5
+  periodSeconds: 5
+prometheus:
+  enabled: true

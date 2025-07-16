@@ -1,0 +1,4 @@
+apiVersion: v2
+name: producer-service
+version: 0.1.0
+description: Producer microservice chart

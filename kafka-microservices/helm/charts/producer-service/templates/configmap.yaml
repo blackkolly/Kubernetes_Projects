@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "producer-service.fullname" . }}-config
+  labels:
+    app: {{ include "producer-service.name" . }}
+data:
+  # Add environment variables or config here

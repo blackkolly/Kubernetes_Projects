@@ -71,7 +71,7 @@ window.onload = function () {
     if (streaming) return;
     streaming = true;
     const params = getParams();
-    let endpoint = "http://localhost:4000/api/stream/" + dataSource.value;
+    let endpoint = "http://backend:4000/api/stream/" + dataSource.value;
     let body = { ...params, action: "start" };
     addToLog("Requesting to start streaming: " + dataSource.value);
     fetch(endpoint, {
@@ -94,7 +94,7 @@ window.onload = function () {
     if (!streaming) return;
     streaming = false;
     const params = getParams();
-    let endpoint = "http://localhost:4000/api/stream/" + dataSource.value;
+    let endpoint = "http://backend:4000/api/stream/" + dataSource.value;
     let body = { ...params, action: "stop" };
     addToLog("Requesting to stop streaming: " + dataSource.value);
     fetch(endpoint, {
@@ -120,7 +120,7 @@ window.onload = function () {
       updateParamInputs();
       if (["news", "air"].includes(dataSource.value)) {
         startBtn.onclick = function () {
-          let endpoint = "http://localhost:4000/api/stream/" + dataSource.value;
+          let endpoint = "http://backend:4000/api/stream/" + dataSource.value;
           addToLog("Requesting " + dataSource.value + " data");
           fetch(endpoint, { method: "POST" })
             .then((res) => res.json())
@@ -142,7 +142,7 @@ window.onload = function () {
           if (streaming) return;
           streaming = true;
           const params = getParams();
-          let endpoint = "http://localhost:4000/api/stream/" + dataSource.value;
+          let endpoint = "http://backend:4000/api/stream/" + dataSource.value;
           let body = { ...params, action: "start" };
           addToLog("Requesting to start streaming: " + dataSource.value);
           fetch(endpoint, {
@@ -222,7 +222,7 @@ window.onload = function () {
         ? "Hide Consumed Data"
         : "Fetch Consumed Data";
       if (consumedVisible) {
-        fetch("http://localhost:4000/api/consumed")
+      fetch("http://backend:4000/api/consumed")
           .then((res) => res.json())
           .then((data) => renderConsumedData(data))
           .catch((err) => {

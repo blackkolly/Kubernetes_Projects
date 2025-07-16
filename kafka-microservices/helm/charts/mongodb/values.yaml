@@ -1,0 +1,22 @@
+replicaCount: 1
+image:
+  repository: bitnami/mongodb
+  tag: latest
+  pullPolicy: IfNotPresent
+service:
+  type: ClusterIP
+  port: 27017
+env: {}
+resources: {}
+livenessProbe:
+  tcpSocket:
+    port: 27017
+  initialDelaySeconds: 10
+  periodSeconds: 10
+readinessProbe:
+  tcpSocket:
+    port: 27017
+  initialDelaySeconds: 5
+  periodSeconds: 5
+prometheus:
+  enabled: true
