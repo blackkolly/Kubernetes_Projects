@@ -1,4 +1,3 @@
-replicaCount: 1
 image:
   repository: docker.io/blackkolly/frontend
   tag: 1.0.0
@@ -7,18 +6,3 @@ service:
   type: ClusterIP
   port: 80
 env: {}
-resources: {}
-livenessProbe:
-  httpGet:
-    path: /
-    port: 80
-  initialDelaySeconds: 10
-  periodSeconds: 10
-readinessProbe:
-  httpGet:
-    path: /
-    port: 80
-  initialDelaySeconds: 5
-  periodSeconds: 5
-prometheus:
-  enabled: true

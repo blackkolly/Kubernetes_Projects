@@ -1,4 +1,3 @@
-replicaCount: 1
 image:
   repository: docker.io/blackkolly/producer-service
   tag: 1.0.0
@@ -6,19 +5,8 @@ image:
 service:
   type: ClusterIP
   port: 3001
-env: {}
-resources: {}
-livenessProbe:
-  httpGet:
-    path: /health
-    port: 3001
-  initialDelaySeconds: 10
-  periodSeconds: 10
-readinessProbe:
-  httpGet:
-    path: /health
-    port: 3001
-  initialDelaySeconds: 5
-  periodSeconds: 5
+env:
+  KAFKA_BROKER: kafka-release-kafka:9092
+  TOPIC: crypto-stream
 prometheus:
   enabled: true

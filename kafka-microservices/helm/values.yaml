@@ -28,7 +28,7 @@ services:
     image: "docker.io/blackkolly/producer-service:1.0.0"
     port: 3001
     env:
-      KAFKA_BROKER: kafka:9092
+      KAFKA_BROKER: kafka-release-kafka:9092
       TOPIC: crypto-stream
     resources:
       requests:
@@ -55,9 +55,9 @@ services:
     image: "docker.io/blackkolly/consumer-service:1.0.2"
     port: 3002
     env:
-      KAFKA_BROKER: kafka:9092
+      KAFKA_BROKER: kafka-release-kafka:9092
       TOPIC: crypto-stream
-      MONGODB_URI: mongodb://mongodb:27017/streamdb
+      MONGODB_URI: mongodb://mongodb-release-mongodb:27017/streamdb
     resources:
       requests:
         cpu: 200m
@@ -109,7 +109,7 @@ services:
     image: "docker.io/blackkolly/data-stream-backend:1.0.0"
     port: 4000
     env:
-      MONGODB_URI: mongodb://mongodb:27017/streamdb
+      MONGODB_URI: mongodb://mongodb-release-mongodb:27017/streamdb
       PRODUCER_URL: http://producer:3001/produce
     resources:
       requests:
@@ -159,14 +159,12 @@ services:
 
   kafka:
     enabled: true
-    image: "bitnami/kafka:3.3.2"
+    image: "bitnami/kafka:latest"
     port: 9092
     env:
-      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
-      KAFKA_CFG_BROKER_ID: "1"
-      KAFKA_CFG_LISTENERS: PLAINTEXT://:9092
-      ALLOW_PLAINTEXT_LISTENER: "yes"
+      KAFKA_CFG_PROCESS_ROLES: "broker"
+      KAFKA_CFG_NODE_ID: "1"
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: "PLAINTEXT:PLAINTEXT"
     resources:
       requests:
         cpu: 500m
