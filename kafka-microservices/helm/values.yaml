@@ -1,209 +1,53 @@
 services:
-  zookeeper:
-    enabled: true
-    image: "bitnami/zookeeper:latest"
-    port: 2181
-    env:
-      ALLOW_ANONYMOUS_LOGIN: "yes"
-    resources:
-      requests:
-        cpu: 250m
-        memory: 256Mi
-      limits:
-        cpu: 500m
-        memory: 512Mi
-    livenessProbe:
-      tcpSocket:
-        port: 2181
-      initialDelaySeconds: 30
-      periodSeconds: 10
-    readinessProbe:
-      tcpSocket:
-        port: 2181
-      initialDelaySeconds: 20
-      periodSeconds: 5
-
-  producer:
-    enabled: true
-    image: "docker.io/blackkolly/producer-service:1.0.0"
-    port: 3001
-    env:
-      KAFKA_BROKER: kafka-release-kafka:9092
-      TOPIC: crypto-stream
-    resources:
-      requests:
-        cpu: 200m
-        memory: 256Mi
-      limits:
-        cpu: 500m
-        memory: 512Mi
-    livenessProbe:
-      httpGet:
-        path: /health
-        port: 3001
-      initialDelaySeconds: 10
-      periodSeconds: 10
-    readinessProbe:
-      httpGet:
-        path: /health
-        port: 3001
-      initialDelaySeconds: 5
-      periodSeconds: 5
-
-  consumer:
-    enabled: true
-    image: "docker.io/blackkolly/consumer-service:1.0.2"
-    port: 3002
-    env:
-      KAFKA_BROKER: kafka-release-kafka:9092
-      TOPIC: crypto-stream
-      MONGODB_URI: mongodb://mongodb-release-mongodb:27017/streamdb
-    resources:
-      requests:
-        cpu: 200m
-        memory: 256Mi
-      limits:
-        cpu: 500m
-        memory: 512Mi
-    livenessProbe:
-      httpGet:
-        path: /health
-        port: 3002
-      initialDelaySeconds: 10
-      periodSeconds: 10
-    readinessProbe:
-      httpGet:
-        path: /health
-        port: 3002
-      initialDelaySeconds: 5
-      periodSeconds: 5
-
   alert:
     enabled: true
-    image: "docker.io/blackkolly/alert-service:1.0.0"
+    image: blackkolly/alert-service:1.0.0
     port: 3003
     env:
       ALERT_EMAIL: alerts@example.com
-    resources:
-      requests:
-        cpu: 100m
-        memory: 128Mi
-      limits:
-        cpu: 300m
-        memory: 256Mi
-    livenessProbe:
-      httpGet:
-        path: /health
-        port: 3003
-      initialDelaySeconds: 10
-      periodSeconds: 10
-    readinessProbe:
-      httpGet:
-        path: /health
-        port: 3003
-      initialDelaySeconds: 5
-      periodSeconds: 5
-
   backend:
     enabled: true
-    image: "docker.io/blackkolly/data-stream-backend:1.0.0"
+    image: blackkolly/data-stream-backend:1.0.0
     port: 4000
     env:
-      MONGODB_URI: mongodb://mongodb-release-mongodb:27017/streamdb
-      PRODUCER_URL: http://producer:3001/produce
-    resources:
-      requests:
-        cpu: 200m
-        memory: 256Mi
-      limits:
-        cpu: 500m
-        memory: 512Mi
-    livenessProbe:
-      httpGet:
-        path: /
-        port: 4000
-      initialDelaySeconds: 10
-      periodSeconds: 10
-    readinessProbe:
-      httpGet:
-        path: /
-        port: 4000
-      initialDelaySeconds: 5
-      periodSeconds: 5
-
+      MONGODB_URI: mongodb://umbrella-release-mongodb:27017/streamdb
+  consumer:
+    enabled: true
+    image: blackkolly/consumer-service:1.0.0
+    port: 3002
+    env:
+      KAFKA_BROKER: umbrella-release-kafka:9092
+      TOPIC: crypto-stream
+      MONGODB_URI: mongodb://umbrella-release-mongodb:27017/streamdb
   frontend:
     enabled: true
-    image: "docker.io/blackkolly/frontend:1.0.0"
+    image: blackkolly/frontend:1.0.0
     port: 80
-    env: {}
-    resources:
-      requests:
-        cpu: 100m
-        memory: 128Mi
-      limits:
-        cpu: 300m
-        memory: 256Mi
-    livenessProbe:
-      httpGet:
-        path: /
-        port: 80
-      initialDelaySeconds: 10
-      periodSeconds: 10
-    readinessProbe:
-      httpGet:
-        path: /
-        port: 80
-      initialDelaySeconds: 5
-      periodSeconds: 5
-
-
   kafka:
     enabled: true
-    image: "bitnami/kafka:latest"
+    image: bitnami/kafka:latest
     port: 9092
     env:
-      KAFKA_CFG_PROCESS_ROLES: "broker"
-      KAFKA_CFG_NODE_ID: "1"
-      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: "PLAINTEXT:PLAINTEXT"
-    resources:
-      requests:
-        cpu: 500m
-        memory: 512Mi
-      limits:
-        cpu: 1
-        memory: 1Gi
-    livenessProbe:
-      tcpSocket:
-        port: 9092
-      initialDelaySeconds: 30
-      periodSeconds: 10
-    readinessProbe:
-      tcpSocket:
-        port: 9092
-      initialDelaySeconds: 20
-      periodSeconds: 5
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://:9092
+      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CFG_BROKER_ID: "1"
 
+  zookeeper:
+    enabled: true
+    image: bitnami/zookeeper:latest
+    port: 2181
   mongodb:
     enabled: true
-    image: "bitnami/mongodb:latest"
+    image: bitnami/mongodb:latest
     port: 27017
     env:
-      MONGODB_ROOT_PASSWORD: strongpassword
       MONGODB_DATABASE: streamdb
-    resources:
-      requests:
-        cpu: 500m
-        memory: 512Mi
-      limits:
-        cpu: 1
-        memory: 1Gi
-    livenessProbe:
-      tcpSocket:
-        port: 27017
-      initialDelaySeconds: 30
-      periodSeconds: 10
-    readinessProbe:
-      tcpSocket:
-        port: 27017
-      initialDelaySeconds: 20
-      periodSeconds: 5
+      MONGODB_ROOT_PASSWORD: strongpassword
+  producer:
+    enabled: true
+    image: blackkolly/producer-service:1.0.0
+    port: 3001
+    env:
+      KAFKA_BROKER: umbrella-release-kafka:9092
+      TOPIC: crypto-stream
+      MONGODB_URI: mongodb://umbrella-release-mongodb:27017/streamdb

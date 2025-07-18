@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ include "kafka.fullname" . }}-config
-  labels:
-    app: {{ include "kafka.name" . }}
-data:
-  # Add environment variables or config here

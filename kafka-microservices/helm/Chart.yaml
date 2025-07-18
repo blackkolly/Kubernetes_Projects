@@ -1,12 +1,4 @@
 apiVersion: v2
 name: kafka-microservices
 version: 0.1.0
-description: Umbrella chart for Kafka-based Node.js microservices platform
-keywords:
-  - kafka
-  - microservices
-  - nodejs
-  - kubernetes
-  - helm
-home: https://example.com
-icon: https://kubernetes.io/images/favicon.png
+description: A Helm umbrella chart for Kafka-based microservices

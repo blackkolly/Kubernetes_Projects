@@ -1,17 +1,17 @@
 {{- /*
   Loop over all enabled services and create a Service for each
-  Only render if required fields are present
 */ -}}
 {{- range $name, $svc := .Values.services }}
 {{- if and $svc.enabled $svc.port }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ if or (eq $name "kafka") (eq $name "zookeeper") (eq $name "mongodb") }}{{ $name }}{{ else }}{{ include "microservice.fullname" (dict "Release" $.Release "service" (dict "name" $name)) }}{{ end }}
+  name: {{ $name }}
   labels:
-    {{ include "microservice.labels" (dict "Release" $.Release "Chart" $.Chart "service" (dict "name" $name)) | nindent 4 }}
+    app.kubernetes.io/name: {{ $name }}
+    app.kubernetes.io/instance: {{ $.Release.Name }}
 spec:
-  type: {{ $svc.serviceType | default "ClusterIP" }}
+  type: ClusterIP
   ports:
     - port: {{ $svc.port }}
       targetPort: {{ $svc.port }}
